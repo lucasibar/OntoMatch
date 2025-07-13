@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Button, TextField, Box, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from './authSlice';
-import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from './authApi';
 import ErrorMessage from '../../shared/ui/ErrorMessage';
 
@@ -20,8 +20,13 @@ const LoginForm = () => {
     
     try {
       const res = await loginRequest({ email, password }).unwrap();
-      dispatch(login({ name: res.user.name, email: res.user.email, token: res.token }));
-      navigate('/');
+      dispatch(login({ 
+        id: res.user.id,
+        name: res.user.name, 
+        email: res.user.email, 
+        token: res.token 
+      }));
+      navigate('/swipe');
     } catch (err: any) {
       setError(err.data?.message || 'Error al iniciar sesión. Verifica tus credenciales.');
     }
@@ -55,8 +60,9 @@ const LoginForm = () => {
         required
         disabled={isLoading}
       />
+      
       <Button type="submit" variant="contained" fullWidth disabled={isLoading} sx={{ mt: 3 }}>
-        {isLoading ? 'Iniciando sesión...' : 'Ingresar'}
+        {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
       </Button>
     </Box>
   );

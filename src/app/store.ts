@@ -3,6 +3,8 @@ import authReducer from '../features/auth/authSlice';
 import matchReducer from '../features/match/matchSlice';
 import { authApi } from '../features/auth/authApi';
 import { usersApi } from '../features/user/userApi';
+import { matchApi } from '../features/match/matchApi';
+import { chatApi } from '../features/chat/chatApi';
 
 export const store = configureStore({
   reducer: {
@@ -10,9 +12,16 @@ export const store = configureStore({
     match: matchReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [matchApi.reducerPath]: matchApi.reducer,
+    [chatApi.reducerPath]: chatApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, usersApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware, 
+      usersApi.middleware,
+      matchApi.middleware,
+      chatApi.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

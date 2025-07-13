@@ -1,6 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../app/store';
 
+interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  profilePhoto?: string;
+  bio?: string;
+  lookingFor: string;
+  createdAt: string;
+}
+
+interface MatchUser {
+  id: string;
+  name: string;
+  profilePhoto?: string;
+  bio?: string;
+  lookingFor: string;
+  createdAt: string;
+}
+
 export const usersApi = createApi({
   reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({
@@ -14,10 +33,13 @@ export const usersApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getProfile: builder.query<{ userId: string; email: string }, void>({
+    getProfile: builder.query<UserProfile, void>({
       query: () => '/users/me',
+    }),
+    getPotentialMatches: builder.query<MatchUser[], void>({
+      query: () => '/users/matches',
     }),
   }),
 });
 
-export const { useGetProfileQuery } = usersApi; 
+export const { useGetProfileQuery, useGetPotentialMatchesQuery } = usersApi; 

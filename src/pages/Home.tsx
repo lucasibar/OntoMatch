@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { logout } from '../features/auth/authSlice';
 import { useGetProfileQuery } from '../features/user/userApi';
-import { Button, Box, Typography, Container, CircularProgress } from '@mui/material';
+import { Button, Box, Typography, Container, CircularProgress, Avatar, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -45,17 +45,42 @@ const HomePage = () => {
         )}
         
         {profile && (
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Hola, {profile.email}!
-            </Typography>
-            <Typography variant="body1" color="text.secondary" gutterBottom>
-              Email: {profile.email}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              ID de Usuario: {profile.userId}
-            </Typography>
-          </Box>
+          <Paper elevation={3} sx={{ p: 3, mt: 3, maxWidth: 500, mx: 'auto' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+              {/* Foto de perfil */}
+              <Avatar
+                src={profile.profilePhoto}
+                alt={profile.name}
+                sx={{ 
+                  width: 120, 
+                  height: 120,
+                  fontSize: '3rem',
+                  bgcolor: 'primary.main'
+                }}
+              >
+                {!profile.profilePhoto && profile.name.charAt(0).toUpperCase()}
+              </Avatar>
+              
+              {/* Información del usuario */}
+              <Typography variant="h5" gutterBottom>
+                ¡Hola, {profile.name}!
+              </Typography>
+              
+              <Typography variant="body1" color="text.secondary" gutterBottom>
+                {profile.email}
+              </Typography>
+              
+              {profile.bio && (
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  "{profile.bio}"
+                </Typography>
+              )}
+              
+              <Typography variant="body2" color="primary" sx={{ mt: 1 }}>
+                Buscas: {profile.lookingFor}
+              </Typography>
+            </Box>
+          </Paper>
         )}
         
         <Box sx={{ mt: 4 }}>

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: { name: string; email: string } | null;
+  user: { id: string; name: string; email: string } | null;
   token: string | null;
 }
 
@@ -13,7 +13,7 @@ const getInitialAuthState = (): AuthState => {
       const parsed = JSON.parse(saved);
       return {
         isAuthenticated: true,
-        user: { name: parsed.name, email: parsed.email },
+        user: { id: parsed.id, name: parsed.name, email: parsed.email },
         token: parsed.token,
       };
     } catch {
@@ -29,15 +29,15 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ name: string; email: string; token: string }>) => {
-      const { name, email, token } = action.payload;
+    login: (state, action: PayloadAction<{ id: string; name: string; email: string; token: string }>) => {
+      const { id, name, email, token } = action.payload;
 
       state.isAuthenticated = true;
-      state.user = { name, email };
+      state.user = { id, name, email };
       state.token = token;
 
       // Guardar en localStorage
-      localStorage.setItem('ontomatch_user', JSON.stringify({ name, email, token }));
+      localStorage.setItem('ontomatch_user', JSON.stringify({ id, name, email, token }));
     },
     logout: (state) => {
       state.isAuthenticated = false;

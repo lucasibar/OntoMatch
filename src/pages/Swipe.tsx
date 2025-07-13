@@ -14,7 +14,7 @@ const SwipePage = () => {
     <Container maxWidth="md">
       <Box sx={{ mt: 4, textAlign: 'center' }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Encuentra tu Coach
+          Encuentra tu Pareja
         </Typography>
         
         <Button 
